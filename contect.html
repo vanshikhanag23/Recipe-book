@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href=" index.css ">
+    <title>Contact Us</title>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="logo">Delicious Recipe</h1>
+            <nav>
+                <div class="menu-icon">&#9776;</div>
+                <ul class="nav-list">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="recipe.html">Recipes</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>    
+        </div>
+    </header>
+
+    <section class="contact-form">
+        <h2>Contact Us</h2>
+        <form id="contact-form" method="post" action="https://docs.google.com/spreadsheets/d/1HfXY-cvNGMTCY3MMtE9W0zX9o1uunj8OUof16r9gi0U/edit?gid=0#gid=0">
+            <input type="text" id="name" name="name" placeholder="Your Name" required>
+            <input type="email" id="email" name="email" placeholder="Your Email" required>
+            <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+            <p id="form-response"></p>
+        </form>
+    </section>
+
+    <footer>
+        <div>
+            <p>&copy; 2024 Delicious Recipes</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Form values
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            var message = document.getElementById('message').value;
+
+            // Google Apps Script URL
+            var scriptURL = 'https://docs.google.com/spreadsheets/d/1HfXY-cvNGMTCY3MMtE9W0zX9o1uunj8OUof16r9gi0U/edit?gid=0#gid=0';
+
+            // Form data to send
+            var formData = new FormData();
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('message', message);
+
+            // Fetch API to send data to Google Sheets
+            fetch(scriptURL, { method: 'POST', body: formData })
+                .then(response => response.text())
+                .then(result => {
+                    document.getElementById('form-response').innerText = 'Message sent successfully!';
+                    document.getElementById('contact-form').reset();
+                })
+                .catch(error => {
+                    document.getElementById('form-response').innerText = 'There was an error!';
+                });
+        });
+
+        function doPost(e) {
+  var sheet = SpreadsheetApp.openById("1HfXY-cvNGMTCY3MMtE9W0zX9o1uunj8OUof16r9gi0U").getSheetByName("Sheet1");
+  
+  // Extract data from the POST request
+  var name = e.parameter.name;
+  var email = e.parameter.email;
+  var message = e.parameter.message;
+  
+  // Append the data to the sheet
+  sheet.appendRow([name, email, message]);
+  
+  return ContentService.createTextOutput('Success');
+}
+
+    </script>
+</body>
+</html>

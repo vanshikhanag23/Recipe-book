@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css ">
+    <title>Recipe Book</title>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="logo">Delicious Recipe</h1>
+            <nav>
+                <div class="q   menu-icon">&#9776;</div>
+                <ul class="nav-list">
+                    <a href="index.html "><li>Home</li></a>
+                    <a href="about.html"><li>About</li></a>
+                    <a href="recipe.html"><li>Recipes</li></a>
+                    <a href="contect.html"><li>Contact</li></a>
+                </ul>
+            </nav>    
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-section">
+            <h2>Welcome to our SVY Cheif Recipe!</h2>
+            <p>Search mouth-watering recipes to satisfy your cravings.</p>
+            
+            <form action="#" class="search-box">
+                <input type="text" id="search-input" placeholder="Search Recipe">
+                <button type="button" id="search-button">Search</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Form to Add New Recipes -->
+    <section class="add-recipe">
+        <h2>Add a New Recipe</h2>
+        <form id="recipe-form">
+            <input type="text" id="recipe-name" placeholder="Recipe Name" required>
+            <input type="text" id="recipe-image" placeholder="Image URL" required>
+            <textarea id="recipe-description" placeholder="Recipe Description" required></textarea>
+            <button type="submit">Add Recipe</button>
+        </form>
+    </section>
+
+    <section class="recipes">
+        <h1>Recipes</h1>
+        <div class="recipe-section">
+            <!-- Existing Recipe Cards -->
+            <div class="recipe-card">
+                <img src=" c1.jpg " alt="  Aloo paratha">
+                <h2>Aloo paratha </h2>
+                <p>Aloo Paratha is a popular North Indian flatbread stuffed with spiced mashed potatoes, often enjoyed with butter, yogurt, or pickle. </p>
+                <a href=" https://parveenskitchen.com/easy-aloo-paratha-recipe/ ">View Recipe</a>
+            </div>
+
+            <div class="recipe-card">
+                <img src="c2.jpeg " alt="pasta">
+                <h2> pasta</h2>
+                <p> Pasta is a popular Italian dish made from wheat dough, shaped into various forms. It's typically served with different sauces like marinara or Alfredo.</p>
+                <a href="  https://cookpad.com/in-hi/recipes/13749483-%E0%A4%AA%E0%A4%B8%E0%A4%A4-pasta-recipe-in-hindi">View Recipe</a>
+            </div>
+
+            <div class="recipe-card">
+                <img src="c3.jpg " alt=" Chole Bhature ">
+                <h2>Chole Bhature</h2>
+                <p>Chole Bhature is a North Indian dish featuring spicy chickpea curry paired with deep-fried. It's a popular and often enjoyed for breakfast or lunch.
+                </p>
+                <a href=" https://cookpad.com/in-hi/recipes/8289983-%E0%A4%AA%E0%A4%9C%E0%A4%AC-%E0%A4%9B%E0%A4%B2-%E0%A4%AD%E0%A4%9F%E0%A4%B0-punjabi-chole-bhature-recipe-in-hindi">View Recipe</a>
+            </div>
+
+            <div class="recipe-card">
+                <img src="c4.jpg " alt="Pizza">
+                <h2>Pizza </h2>
+                <p> Pizza is a beloved Italian dish featuring a baked flatbread base topped with tomato sauce, cheese, and various toppings like vegetables, meats, and herbs.</p>
+                <a href="  https://www.loveandlemons.com/homemade-pizza/ ">View Recipe</a>
+            </div>
+
+            <div class="recipe-card">
+                <img src=" c5.webp" alt="Dhokla">
+                <h2>Dhokla </h2>
+                <p>Dhokla is a soft, spongy, and savory steamed cake from Gujarat, made from fermented rice and chickpea batter, often garnished with mustard seeds and coconut.</p>
+                <a href="  https://nishamadhulika.com/309-besan-dhokla-recipe.html ">View Recipe</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div>
+            <p>&copy; 2024 Delicious Recipes</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Code -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const recipeForm = document.getElementById('recipe-form');
+            const recipeSection = document.querySelector('.recipe-section');
+            const searchInput = document.getElementById('search-input');
+            const searchButton = document.getElementById('search-button');
+            const existingRecipes = Array.from(document.querySelectorAll('.recipe-card'));
+
+            // Function to create a new recipe card
+            function createRecipeCard(name, image, description) {
+                const card = document.createElement('div');
+                card.className = 'recipe-card';
+
+                card.innerHTML = `
+                    <img src="${image}" alt="${name}">
+                    <h2>${name}</h2>
+                    <p>${description}</p>
+                    <a href="#">View Recipe</a>
+                `;
+
+                return card;
+            }
+
+            // Event listener to add a new recipe
+            recipeForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const name = document.getElementById('recipe-name').value;
+                const image = document.getElementById('recipe-image').value;
+                const description = document.getElementById('recipe-description').value;
+
+                const newCard = createRecipeCard(name, image, description);
+                recipeSection.appendChild(newCard);
+
+                // Clear form fields after submission
+                recipeForm.reset();
+            });
+
+            // Function to filter recipes based on search input
+            function filterRecipes() {
+                const searchValue = searchInput.value.toLowerCase();
+                const recipes = document.querySelectorAll('.recipe-card');
+
+                recipes.forEach(recipe => {
+                    const name = recipe.querySelector('h2').textContent.toLowerCase();
+                    if (name.includes(searchValue)) {
+                        recipe.style.display = 'block';
+                    } else {
+                        recipe.style.display = 'none';
+                    }
+                });
+            }
+
+            // Event listener for search functionality
+            searchButton.addEventListener('click', filterRecipes);
+            searchInput.addEventListener('keyup', filterRecipes);
+        });
+    </script>
+</body>
+</html>
